@@ -2,22 +2,19 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  CardMedia,
   Typography,
   Grid,
   CircularProgress,
   Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DroneCard from "../../components/DroneCard";
+import DroneMap from "../../components/DroneMap";
 
 const Drones = () => {
   const [drones, setDrones] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  const DUMMY_IMAGE = "https://placehold.co/320x180?text=No+Image";
 
   useEffect(() => {
     const fetchDrones = async () => {
@@ -69,42 +66,10 @@ const Drones = () => {
         <Grid container spacing={4}>
           {drones.map((drone) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={drone._id}>
-              <Card sx={{ boxShadow: 3, borderRadius: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={
-                    drone.image
-                      ? drone.image.startsWith("http")
-                        ? drone.image
-                        : `http://localhost:5050/${drone.image.replace(
-                            /\\/g,
-                            "/"
-                          )}`
-                      : DUMMY_IMAGE
-                  }
-                  alt={drone.name}
-                />
-                <CardContent>
-                  <Typography variant="h6" fontWeight={600} gutterBottom>
-                    {drone.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Status: <b>{drone.status}</b>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Battery: <b>{drone.battery}%</b>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Location:{" "}
-                    <b>
-                      {drone.location.lat}, {drone.location.lng}
-                    </b>
-                  </Typography>
-                </CardContent>
-              </Card>
+              <DroneCard drone={drone} />
             </Grid>
           ))}
+          <DroneMap drones={drones} />
         </Grid>
       )}
     </Box>
