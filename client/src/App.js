@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { publicRoutes, adminRoutes, operatorRoutes } from "./routesConfig";
+import ProtectedRoute from "./components/ProtectedRoutes";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        {publicRoutes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
+
+        {/* Admin Routes  */}
+        {adminRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                {element}
+              </ProtectedRoute>
+            }
+          />
+        ))}
+
+        {/* Operator Routes */}
+        {operatorRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <ProtectedRoute allowedRoles={["operator"]}>
+                {element}
+              </ProtectedRoute>
+            }
+          />
+        ))}
+      </Routes>
+    </Router>
   );
 }
 
