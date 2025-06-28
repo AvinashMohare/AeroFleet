@@ -42,7 +42,7 @@ export default function Signup() {
         localStorage.setItem("username", data.data.username);
         localStorage.setItem("role", data.data.role);
         if (data.data.role === "admin") navigate("/admin-dashboard");
-        else if (data.data.role === "operator") navigate("/operator-dasboard");
+        else if (data.data.role === "operator") navigate("/operator-dashboard");
         else navigate("/");
       } else {
         alert(data.message || "Signup failed");
