@@ -86,10 +86,15 @@ const AdminDashboard = () => {
           fontWeight={700}
           color="text.primary"
           sx={{ mb: 1 }}
+          textAlign={"center"}
         >
           AeroFleet
         </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
+        <Typography
+          variant="subtitle1"
+          color="text.secondary"
+          textAlign={"center"}
+        >
           Monitor and manage your drone operations
         </Typography>
       </Box>
