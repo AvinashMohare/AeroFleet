@@ -17,18 +17,24 @@ import {
   Polyline,
   Popup,
   useMapEvents,
+  Tooltip,
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const droneIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/2738/2738953.png",
   iconSize: [40, 40],
 });
 
 const areaIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [32, 32],
+});
+
+const waypointIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconSize: [28, 28],
 });
 
 const CreateMission = () => {
@@ -268,6 +274,20 @@ const CreateMission = () => {
                           click: () => handleDroneSelect(drone._id),
                         }}
                       >
+                        <Tooltip
+                          direction="top"
+                          offset={[0, -20]}
+                          opacity={1}
+                          permanent={false}
+                        >
+                          <div>
+                            <b>{drone.name}</b>
+                            <br />
+                            Status: {drone.status}
+                            <br />
+                            Battery: {drone.battery}%
+                          </div>
+                        </Tooltip>
                         <Popup>
                           <b>{drone.name}</b>
                           <br />
@@ -296,7 +316,7 @@ const CreateMission = () => {
               {step >= 3 && (
                 <>
                   {waypoints.map((point, idx) => (
-                    <Marker key={idx} position={point}>
+                    <Marker key={idx} position={point} icon={waypointIcon}>
                       <Popup>Waypoint {idx + 1}</Popup>
                     </Marker>
                   ))}

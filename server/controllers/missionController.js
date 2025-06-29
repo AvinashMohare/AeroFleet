@@ -59,7 +59,7 @@ exports.getMissions = async (req, res) => {
 exports.getMissionById = async (req, res) => {
   try {
     const mission = await Mission.findById(req.params.id)
-      .populate("assignedDrone", "name")
+      .populate("assignedDrone")
       .populate("createdBy", "username");
     if (!mission) {
       return res.status(404).json({ message: "Mission not found" });

@@ -20,7 +20,7 @@ import { io } from "socket.io-client";
 import "leaflet/dist/leaflet.css";
 
 const droneIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/2738/2738953.png",
   iconSize: [40, 40],
 });
 
@@ -76,6 +76,14 @@ const MissionLiveFeed = ({ mission }) => {
   const waypoints = (mission.waypoints || []).map((wp) =>
     Array.isArray(wp) ? wp : [wp.lat, wp.lng]
   );
+
+  // Determine marker position
+  let markerPosition = null;
+  if (liveData && liveData.location) {
+    markerPosition = [liveData.location.lat, liveData.location.lng];
+  } else {
+    markerPosition = mission.assignedDrone.location;
+  }
 
   return (
     <Box sx={{ p: 3 }}>
@@ -133,7 +141,7 @@ const MissionLiveFeed = ({ mission }) => {
             pathOptions={{ color: "red", weight: 3 }}
           />
         )}
-        {liveData ? (
+        {/* {liveData ? (
           <Marker
             position={[liveData.location.lat, liveData.location.lng]}
             icon={droneIcon}
@@ -146,7 +154,24 @@ const MissionLiveFeed = ({ mission }) => {
               Status: {liveData.status}
             </Popup>
           </Marker>
-        ) : null}
+        ) : null} */}
+
+        {markerPosition && (
+          <Marker position={markerPosition} icon={droneIcon}>
+            <Popup>
+              <b>Drone</b>
+              <br />
+              {liveData ? (
+                <>
+                  Battery: {Math.round(liveData.battery)}%<br />
+                  Status: {liveData.status}
+                </>
+              ) : (
+                "Not in mission"
+              )}
+            </Popup>
+          </Marker>
+        )}
       </MapContainer>
       {!liveData && (
         <Typography
