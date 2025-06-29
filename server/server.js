@@ -9,6 +9,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const droneRoutes = require("./routes/drone");
 const missionRoutes = require("./routes/mission");
+const dashboardRoutes = require("./routes/dashboard");
 
 const app = express();
 app.use(cors({ origin: "*", credentials: true }));
@@ -30,6 +31,7 @@ mongoose
 app.use("/api", authRoutes);
 app.use("/api/drones", droneRoutes);
 app.use("/api/missions", missionRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 // --- Socket.IO setup ---
 const http = require("http");

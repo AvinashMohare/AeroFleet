@@ -12,7 +12,6 @@ import {
 const roles = [
   { value: "admin", label: "Admin" },
   { value: "operator", label: "Operator" },
-  { value: "viewer", label: "Viewer" },
 ];
 
 export default function Signup() {
