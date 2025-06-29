@@ -31,5 +31,21 @@ app.use("/api", authRoutes);
 app.use("/api/drones", droneRoutes);
 app.use("/api/missions", missionRoutes);
 
+// --- Socket.IO setup ---
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server, { cors: { origin: "*" } });
+
+// Export io for use in controllers
+module.exports = { io, app, server };
+
+const { startMockMissionFeed } = require("./mockMissionFeed");
+const { missionEvents } = require("./controllers/missionController");
+
+missionEvents.on("start-mock-feed", (mission) => {
+  startMockMissionFeed(io, mission);
+});
+
 const PORT = process.env.PORT || 5050;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
