@@ -45,7 +45,7 @@ const CreateMission = () => {
   const [drones, setDrones] = useState([]);
   const [assignedDrone, setAssignedDrone] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1); // 1: select area, 2: select drone, 3: waypoints
+  const [step, setStep] = useState(1); // 1: select area, 2: select drone, 3: waypoints, 4: review/submit
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -219,49 +219,81 @@ const CreateMission = () => {
                 attribution="&copy; OpenStreetMap contributors"
               />
               <MapClickHandler />
+              {/* Show area polygon always if area is selected */}
               {area.length > 0 && (
                 <Polygon positions={area} pathOptions={{ color: "blue" }} />
               )}
-              {area.map((point, idx) => (
-                <Marker key={idx} position={point} icon={areaIcon}>
-                  <Popup>Area Point {idx + 1}</Popup>
-                </Marker>
-              ))}
-              {/* Show drones after area selection */}
-              {step > 1 &&
-                drones.map((drone) => (
-                  <Marker
-                    key={drone._id}
-                    position={[drone.location.lat, drone.location.lng]}
-                    icon={droneIcon}
-                    eventHandlers={{
-                      click: () => handleDroneSelect(drone._id),
-                    }}
-                  >
-                    <Popup>
-                      <b>{drone.name}</b>
-                      <br />
-                      Status: {drone.status}
-                      <br />
-                      Battery: {drone.battery}%
-                      <br />
-                      <Button
-                        variant={
-                          assignedDrone === drone._id ? "contained" : "outlined"
-                        }
-                        size="small"
-                        onClick={() => handleDroneSelect(drone._id)}
-                        sx={{ mt: 1 }}
-                      >
-                        {assignedDrone === drone._id
-                          ? "Selected"
-                          : "Select Drone"}
-                      </Button>
-                    </Popup>
+              {/* Show area points only during area selection */}
+              {step === 1 &&
+                area.map((point, idx) => (
+                  <Marker key={idx} position={point} icon={areaIcon}>
+                    <Popup>Area Point {idx + 1}</Popup>
                   </Marker>
                 ))}
-              {/* Show waypoints and polyline */}
-              {step === 3 && (
+              {/* Show drones only after area selection */}
+              {step > 1 &&
+                (assignedDrone
+                  ? drones
+                      .filter((drone) => drone._id === assignedDrone)
+                      .map((drone) => (
+                        <Marker
+                          key={drone._id}
+                          position={[drone.location.lat, drone.location.lng]}
+                          icon={droneIcon}
+                        >
+                          <Popup>
+                            <b>{drone.name}</b>
+                            <br />
+                            Status: {drone.status}
+                            <br />
+                            Battery: {drone.battery}%
+                            <br />
+                            <Button
+                              variant="contained"
+                              size="small"
+                              sx={{ mt: 1 }}
+                              disabled
+                            >
+                              Selected
+                            </Button>
+                          </Popup>
+                        </Marker>
+                      ))
+                  : drones.map((drone) => (
+                      <Marker
+                        key={drone._id}
+                        position={[drone.location.lat, drone.location.lng]}
+                        icon={droneIcon}
+                        eventHandlers={{
+                          click: () => handleDroneSelect(drone._id),
+                        }}
+                      >
+                        <Popup>
+                          <b>{drone.name}</b>
+                          <br />
+                          Status: {drone.status}
+                          <br />
+                          Battery: {drone.battery}%
+                          <br />
+                          <Button
+                            variant={
+                              assignedDrone === drone._id
+                                ? "contained"
+                                : "outlined"
+                            }
+                            size="small"
+                            onClick={() => handleDroneSelect(drone._id)}
+                            sx={{ mt: 1 }}
+                          >
+                            {assignedDrone === drone._id
+                              ? "Selected"
+                              : "Select Drone"}
+                          </Button>
+                        </Popup>
+                      </Marker>
+                    )))}
+              {/* Show waypoints and polyline after step 3 */}
+              {step >= 3 && (
                 <>
                   {waypoints.map((point, idx) => (
                     <Marker key={idx} position={point}>
