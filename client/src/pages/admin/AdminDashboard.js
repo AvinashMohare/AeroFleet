@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
 import {
   TrendingUp,
   Warning,
@@ -7,16 +13,27 @@ import {
   Assignment,
   Error,
   People,
+  Menu as MenuIcon,
 } from "@mui/icons-material";
 import StatCard from "../../components/Dashboard/StatCard";
 import StatusChips from "../../components/Dashboard/StatusChips";
 import DronesList from "../../components/Dashboard/DronesList";
 import MissionsList from "../../components/Dashboard/MissionsList";
 import AlertsList from "../../components/Dashboard/AlertsList";
+import AdminDrawer from "../../components/Dashboard/AdminDrawer";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setDrawerOpen(false);
+    navigate("/login");
+  };
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -34,6 +51,15 @@ const AdminDashboard = () => {
     };
     fetchDashboard();
   }, []);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen((prev) => !prev);
+  };
+
+  const handleMenuClick = (path) => {
+    setDrawerOpen(false);
+    navigate(path);
+  };
 
   if (loading) {
     return (
@@ -77,8 +103,37 @@ const AdminDashboard = () => {
         bgcolor: "white",
         minHeight: "100vh",
         background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        position: "relative",
       }}
     >
+      {/* Menu Icon */}
+      {!drawerOpen && (
+        <>
+          <IconButton
+            onClick={handleDrawerToggle}
+            sx={{
+              position: "absolute",
+              top: 24,
+              left: 24,
+              zIndex: 1201,
+              bgcolor: "white",
+              boxShadow: 2,
+            }}
+            size="large"
+            aria-label="open menu"
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
+        </>
+      )}
+
+      {/* Drawer */}
+      <AdminDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onLogout={handleLogout}
+      />
+
       {/* Header */}
       <Box sx={{ mb: 4 }}>
         <Typography
