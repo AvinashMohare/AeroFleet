@@ -6,6 +6,7 @@ import Drones from "./pages/admin/Drones";
 import AddDrone from "./pages/admin/AddDrone";
 import CreateMission from "./pages/admin/CreateMission";
 import Missions from "./pages/admin/Missions";
+import MissionLiveFeedPage from "./pages/admin/MissionLiveFeedPage";
 
 export const publicRoutes = [
   { path: "/", element: <Signup /> },
@@ -18,6 +19,7 @@ export const adminRoutes = [
   { path: "/admin/add-drone", element: <AddDrone /> },
   { path: "/admin/create-mission", element: <CreateMission /> },
   { path: "/admin/missions", element: <Missions /> },
+  { path: "/admin/missions/:id/live", element: <MissionLiveFeedPage /> },
 ];
 
 export const operatorRoutes = [

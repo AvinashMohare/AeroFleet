@@ -117,7 +117,9 @@ const Missions = () => {
                 <CardActions>
                   <Button
                     size="small"
-                    onClick={() => navigate(`/admin/missions/${mission._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/missions/${mission._id}/live`)
+                    }
                   >
                     View Details
                   </Button>
