@@ -8,6 +8,7 @@ import {
   Box,
   MenuItem,
 } from "@mui/material";
+import Heading from "../../components/Heading";
 
 const roles = [
   { value: "admin", label: "Admin" },
@@ -55,7 +56,13 @@ export default function Signup() {
   return (
     <Container maxWidth="xs">
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h5" gutterBottom textAlign="center">
+        <Heading />
+        <Typography
+          variant="h5"
+          gutterBottom
+          textAlign="center"
+          sx={{ mt: 4, mb: 2 }}
+        >
           Sign Up
         </Typography>
         <form onSubmit={handleSubmit}>

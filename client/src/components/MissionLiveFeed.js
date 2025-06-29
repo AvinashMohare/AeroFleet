@@ -36,7 +36,6 @@ const MissionLiveFeed = ({ mission }) => {
       socketRef.current.disconnect();
     }
 
-    console.log("MissionLiveFeed: connecting socket for mission", mission._id);
     const socket = io("http://localhost:5050");
     socketRef.current = socket;
 
@@ -88,13 +87,19 @@ const MissionLiveFeed = ({ mission }) => {
   return (
     <Box sx={{ p: 3 }}>
       <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h5" fontWeight={700} mb={2}>
-          Live Mission Feed
-        </Typography>
         <Stack direction="row" spacing={2} alignItems="center" mb={2}>
           <Chip label={liveData?.status || mission.status} color="primary" />
           <Typography>
-            Battery: <b>{liveData ? Math.round(liveData.battery) : 100}%</b>
+            Drone: <b>{mission.assignedDrone.name} </b>
+          </Typography>
+          <Typography>
+            Battery:{" "}
+            <b>
+              {liveData
+                ? Math.round(liveData.battery)
+                : Math.round(mission.assignedDrone.battery)}
+              %
+            </b>
           </Typography>
           <Typography>
             Altitude: <b>{mission.altitude} m</b>
@@ -110,7 +115,7 @@ const MissionLiveFeed = ({ mission }) => {
         </Stack>
         <LinearProgress
           variant="determinate"
-          value={liveData ? liveData.battery : 100}
+          value={liveData ? liveData.battery : mission.assignedDrone.battery}
           sx={{ mb: 2, height: 8, borderRadius: 2 }}
         />
         <Typography variant="body2" color="text.secondary">
@@ -141,20 +146,6 @@ const MissionLiveFeed = ({ mission }) => {
             pathOptions={{ color: "red", weight: 3 }}
           />
         )}
-        {/* {liveData ? (
-          <Marker
-            position={[liveData.location.lat, liveData.location.lng]}
-            icon={droneIcon}
-          >
-            <Popup>
-              <b>Drone</b>
-              <br />
-              Battery: {Math.round(liveData.battery)}%
-              <br />
-              Status: {liveData.status}
-            </Popup>
-          </Marker>
-        ) : null} */}
 
         {markerPosition && (
           <Marker position={markerPosition} icon={droneIcon}>
@@ -186,15 +177,21 @@ const MissionLiveFeed = ({ mission }) => {
       {liveData && liveData.status !== "completed" && (
         <Box mt={3} display="flex" justifyContent="center">
           <video
-            width="480"
+            width="100%"
+            height="400"
             controls
             autoPlay
             loop
             muted
-            style={{ borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
+            style={{
+              borderRadius: 8,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              objectFit: "cover",
+              maxWidth: "100%",
+            }}
           >
             <source
-              src="https://www.w3schools.com/html/mov_bbb.mp4"
+              src="https://cdn.videvo.net/videvo_files/video/free/2013-08/large_watermarked/Drone_Drop_preview.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.

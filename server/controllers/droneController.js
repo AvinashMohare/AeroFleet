@@ -63,3 +63,15 @@ exports.getDroneById = async (req, res) => {
       .json({ message: "Failed to fetch drone", error: err.message });
   }
 };
+
+exports.getAssignedDrone = async (req, res) => {
+  try {
+    // req.user._id should be set by your auth middleware
+    const drone = await Drone.findOne({ assignedOperator: req.user.userId });
+    res.json({ drone });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch assigned drone", error: err.message });
+  }
+};

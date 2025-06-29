@@ -24,7 +24,13 @@ router.post(
   droneController.createDrone
 );
 router.get("/", verifyToken, droneController.getDrones);
-router.post("/:droneId/assign-operator", droneController.assignOperator);
-router.get("/:droneId", droneController.getDroneById);
+router.post(
+  "/:droneId/assign-operator",
+  verifyToken,
+  isAdmin,
+  droneController.assignOperator
+);
+router.get("/assigned-drone", verifyToken, droneController.getAssignedDrone);
+router.get("/:droneId", verifyToken, droneController.getDroneById);
 
 module.exports = router;

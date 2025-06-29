@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MissionLiveFeed from "../../components/MissionLiveFeed";
-import { CircularProgress, Box, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Box,
+  Typography,
+  Button,
+  Paper,
+} from "@mui/material";
+import * as XLSX from "xlsx";
 
 const MissionLiveFeedPage = () => {
   const { id } = useParams();
@@ -40,6 +47,23 @@ const MissionLiveFeedPage = () => {
     fetchMission();
   }, [id]);
 
+  // Mock Excel download handler
+  const handleDownloadExcel = () => {
+    // Mock data: replace with actual mission.sensorData if available
+    const rows = (
+      mission.sensorData || [
+        { sensor1: 10, sensor2: 20 },
+        { sensor1: 15, sensor2: 25 },
+        { sensor1: 12, sensor2: 22 },
+      ]
+    ).map(({ sensor1, sensor2 }) => ({ sensor1, sensor2 }));
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SensorData");
+    XLSX.writeFile(workbook, `mission_${mission._id}_sensors.xlsx`);
+  };
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" mt={8}>
@@ -64,7 +88,27 @@ const MissionLiveFeedPage = () => {
     );
   }
 
-  return <MissionLiveFeed mission={mission} />;
+  return (
+    <Box sx={{ p: 3 }}>
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" fontWeight={700} mb={2}>
+          Live Mission Feed
+        </Typography>
+        {mission.status === "completed" && (
+          <Box display="flex" mb={2}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleDownloadExcel}
+            >
+              Download Sensor Data (Excel)
+            </Button>
+          </Box>
+        )}
+        <MissionLiveFeed mission={mission} />
+      </Paper>
+    </Box>
+  );
 };
 
 export default MissionLiveFeedPage;

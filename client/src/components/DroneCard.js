@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -36,7 +35,7 @@ const DroneCard = ({ drone }) => {
             Status: <b>{drone.status}</b>
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Battery: <b>{drone.battery}%</b>
+            Battery: <b>{Math.round(drone.battery)}%</b>
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Location:{" "}

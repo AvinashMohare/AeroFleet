@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Heading from "../../components/Heading";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -40,7 +41,13 @@ export default function Login() {
   return (
     <Container maxWidth="xs">
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h5" gutterBottom textAlign={"center"}>
+        <Heading />
+        <Typography
+          variant="h5"
+          gutterBottom
+          textAlign={"center"}
+          sx={{ mt: 4, mb: 2 }}
+        >
           Login
         </Typography>
         <form onSubmit={handleSubmit}>

@@ -21,6 +21,8 @@ import DronesList from "../../components/Dashboard/DronesList";
 import MissionsList from "../../components/Dashboard/MissionsList";
 import AlertsList from "../../components/Dashboard/AlertsList";
 import AdminDrawer from "../../components/Dashboard/AdminDrawer";
+import Heading from "../../components/Heading";
+
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -54,11 +56,6 @@ const AdminDashboard = () => {
 
   const handleDrawerToggle = () => {
     setDrawerOpen((prev) => !prev);
-  };
-
-  const handleMenuClick = (path) => {
-    setDrawerOpen(false);
-    navigate(path);
   };
 
   if (loading) {
@@ -136,22 +133,7 @@ const AdminDashboard = () => {
 
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography
-          variant="h3"
-          fontWeight={700}
-          color="text.primary"
-          sx={{ mb: 1 }}
-          textAlign={"center"}
-        >
-          AeroFleet
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          color="text.secondary"
-          textAlign={"center"}
-        >
-          Monitor and manage your drone operations
-        </Typography>
+        <Heading />
       </Box>
 
       {/* Stats Cards */}

@@ -74,7 +74,7 @@ const DronesList = ({ drones }) => (
                           }}
                         />
                         <Typography variant="body2" fontWeight={500}>
-                          {drone.battery}%
+                          {Math.round(drone.battery)}%
                         </Typography>
                       </Box>
                     </Box>

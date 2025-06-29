@@ -36,7 +36,7 @@ exports.getAdminDashboard = async (req, res) => {
         .filter((d) => d.battery < 20)
         .map((d) => ({
           type: "battery",
-          message: `${d.name} battery low (${d.battery}%)`,
+          message: `${d.name} battery low (${Math.round(d.battery)}%)`,
           droneId: d._id,
           timestamp: new Date(),
         })),

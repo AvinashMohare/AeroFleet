@@ -72,7 +72,7 @@ const Missions = () => {
           No missions found. Click "Create Mission" to add your first mission!
         </Typography>
       ) : (
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {missions.map((mission) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={mission._id}>
               <Card sx={{ boxShadow: 3, borderRadius: 3 }}>

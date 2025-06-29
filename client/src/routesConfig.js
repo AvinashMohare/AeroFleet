@@ -26,4 +26,5 @@ export const adminRoutes = [
 
 export const operatorRoutes = [
   { path: "/operator-dashboard", element: <OperatorDashboard /> },
+  { path: "/operator/missions/:id/live", element: <MissionLiveFeedPage /> },
 ];
