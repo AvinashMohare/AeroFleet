@@ -12,7 +12,12 @@ const droneSchema = new mongoose.Schema({
     lat: { type: Number, default: 0 },
     lng: { type: Number, default: 0 },
   },
-  image: { type: String, default: "" }, // URL or path to drone image
+  image: { type: String, default: "" },
+  assignedOperator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+  },
   lastActive: { type: Date, default: Date.now },
 });
 

@@ -10,6 +10,7 @@ const authRoutes = require("./routes/auth");
 const droneRoutes = require("./routes/drone");
 const missionRoutes = require("./routes/mission");
 const dashboardRoutes = require("./routes/dashboard");
+const userRoutes = require("./routes/user");
 
 const app = express();
 app.use(cors({ origin: "*", credentials: true }));
@@ -32,6 +33,7 @@ app.use("/api", authRoutes);
 app.use("/api/drones", droneRoutes);
 app.use("/api/missions", missionRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/users", userRoutes);
 
 // --- Socket.IO setup ---
 const http = require("http");

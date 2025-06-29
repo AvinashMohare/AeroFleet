@@ -27,3 +27,39 @@ exports.getDrones = async (req, res) => {
       .json({ message: "Failed to fetch drones", error: err.message });
   }
 };
+
+exports.assignOperator = async (req, res) => {
+  try {
+    const { operatorId } = req.body;
+    const drone = await Drone.findByIdAndUpdate(
+      req.params.droneId,
+      { assignedOperator: operatorId },
+      { new: true }
+    ).populate("assignedOperator", "username email");
+    if (!drone) {
+      return res.status(404).json({ message: "Drone not found" });
+    }
+    res.json({ message: "Operator assigned successfully", drone });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to assign operator", error: err.message });
+  }
+};
+
+exports.getDroneById = async (req, res) => {
+  try {
+    const drone = await Drone.findById(req.params.droneId).populate(
+      "assignedOperator",
+      "username email"
+    );
+    if (!drone) {
+      return res.status(404).json({ message: "Drone not found" });
+    }
+    res.json({ drone });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch drone", error: err.message });
+  }
+};

@@ -4,7 +4,7 @@ const StatusChips = ({ statusCounts, type }) => {
   const getStatusColor = (status) => {
     const statusColors = {
       active: "success",
-      idle: "info",
+      available: "info",
       maintenance: "warning",
       offline: "error",
       completed: "success",

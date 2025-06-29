@@ -34,7 +34,7 @@ function startMockMissionFeed(io, mission) {
         await Mission.findByIdAndUpdate(mission._id, { status: "completed" });
         await Drone.findByIdAndUpdate(mission.assignedDrone, {
           status: "available",
-          battery: 100,
+          battery: battery,
         });
       }
     } catch (err) {
