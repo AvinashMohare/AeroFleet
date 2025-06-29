@@ -45,7 +45,11 @@ exports.createMission = async (req, res) => {
 
 exports.getMissions = async (req, res) => {
   try {
-    const missions = await Mission.find()
+    const filter = {};
+    if (req.query.droneId) {
+      filter.assignedDrone = req.query.droneId;
+    }
+    const missions = await Mission.find(filter)
       .populate("assignedDrone", "name")
       .populate("createdBy", "username");
     res.json({ missions });

@@ -176,26 +176,18 @@ const MissionLiveFeed = ({ mission }) => {
       )}
       {liveData && liveData.status !== "completed" && (
         <Box mt={3} display="flex" justifyContent="center">
-          <video
-            width="100%"
-            height="400"
-            controls
-            autoPlay
-            loop
-            muted
-            style={{
-              borderRadius: 8,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-              objectFit: "cover",
-              maxWidth: "100%",
-            }}
-          >
-            <source
-              src="https://cdn.videvo.net/videvo_files/video/free/2013-08/large_watermarked/Drone_Drop_preview.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+          <Box mt={3} display="flex" justifyContent="center">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/278IRQ6HSi4?autoplay=1&mute=1"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          </Box>
         </Box>
       )}
     </Box>
