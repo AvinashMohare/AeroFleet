@@ -20,9 +20,9 @@ exports.getAdminDashboard = async (req, res) => {
       return acc;
     }, {});
     const recentMissions = missions.slice(0, 5);
-    const activeMissions = missions.filter((m) => m.status === "inProgress");
+    const activeMissions = missions.filter((m) => m.status === "in-progress");
     const upcomingMissions = missions
-      .filter((m) => m.status === "scheduled")
+      .filter((m) => m.status === "planned")
       .slice(0, 5);
     const completed = missionStatusCounts.completed || 0;
     const failed = missionStatusCounts.failed || 0;
@@ -30,14 +30,26 @@ exports.getAdminDashboard = async (req, res) => {
       completed + failed > 0 ? (completed / (completed + failed)) * 100 : 0;
 
     // Alerts (example: low battery, maintenance, etc.)
-    const alerts = drones
-      .filter((d) => d.battery < 20)
-      .map((d) => ({
-        type: "battery",
-        message: `${d.name} battery low (${d.battery}%)`,
-        droneId: d._id,
-        timestamp: new Date(),
-      }));
+    const alerts = [
+      // Low battery alerts
+      ...drones
+        .filter((d) => d.battery < 20)
+        .map((d) => ({
+          type: "battery",
+          message: `${d.name} battery low (${d.battery}%)`,
+          droneId: d._id,
+          timestamp: new Date(),
+        })),
+      // Maintenance alerts
+      ...drones
+        .filter((d) => d.status === "maintenance")
+        .map((d) => ({
+          type: "maintenance",
+          message: `${d.name} requires maintenance`,
+          droneId: d._id,
+          timestamp: new Date(),
+        })),
+    ];
 
     // Operators
     const users = await User.find();

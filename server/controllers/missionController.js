@@ -20,7 +20,7 @@ exports.createMission = async (req, res) => {
     // Schedule the mission using setTimeout
     setTimeout(async () => {
       try {
-        await Mission.findByIdAndUpdate(mission._id, { status: "In Progress" });
+        await Mission.findByIdAndUpdate(mission._id, { status: "in-progress" });
         if (mission.assignedDrone) {
           await Drone.findByIdAndUpdate(mission.assignedDrone, {
             status: "in-mission",

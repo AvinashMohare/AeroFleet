@@ -33,7 +33,7 @@ function startMockMissionFeed(io, mission) {
         clearInterval(interval);
         await Mission.findByIdAndUpdate(mission._id, { status: "completed" });
         await Drone.findByIdAndUpdate(mission.assignedDrone, {
-          status: "idle",
+          status: "available",
           battery: 100,
         });
       }
