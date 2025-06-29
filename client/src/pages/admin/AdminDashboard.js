@@ -1,156 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Paper,
-  Grid,
-  CircularProgress,
-  Chip,
-  Stack,
-  Divider,
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Alert,
-} from "@mui/material";
+import { Box, Typography, Grid, CircularProgress } from "@mui/material";
 import {
   TrendingUp,
   Warning,
   Flight,
   Assignment,
-  Group,
+  Error,
+  People,
 } from "@mui/icons-material";
-
-const StatCard = ({ icon, label, value, color }) => (
-  <Paper sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}>
-    <Avatar sx={{ bgcolor: color }}>{icon}</Avatar>
-    <Box>
-      <Typography variant="h6">{value}</Typography>
-      <Typography variant="body2" color="text.secondary">
-        {label}
-      </Typography>
-    </Box>
-  </Paper>
-);
-
-const StatusChips = ({ statusCounts }) => (
-  <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
-    {Object.entries(statusCounts).map(([status, count]) => (
-      <Chip
-        key={status}
-        label={`${status}: ${count}`}
-        color="primary"
-        variant="outlined"
-      />
-    ))}
-  </Stack>
-);
-
-const DronesList = ({ drones }) => (
-  <Paper sx={{ p: 2, mt: 2 }}>
-    <Typography variant="h6" mb={1}>
-      Drones Overview
-    </Typography>
-    <List dense>
-      {drones.slice(0, 5).map((drone) => (
-        <ListItem key={drone._id}>
-          <ListItemAvatar>
-            <Avatar>
-              <Flight />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={drone.name}
-            secondary={
-              <>
-                Status: <b>{drone.status}</b> | Battery: <b>{drone.battery}%</b>
-              </>
-            }
-          />
-        </ListItem>
-      ))}
-    </List>
-    {drones.length > 5 && (
-      <Typography variant="caption" color="text.secondary">
-        +{drones.length - 5} more drones
-      </Typography>
-    )}
-  </Paper>
-);
-
-const MissionsList = ({ missions, title }) => (
-  <Paper sx={{ p: 2, mt: 2 }}>
-    <Typography variant="h6" mb={1}>
-      {title}
-    </Typography>
-    <List dense>
-      {missions.map((mission) => (
-        <ListItem key={mission._id}>
-          <ListItemAvatar>
-            <Avatar>
-              <Assignment />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={mission.name}
-            secondary={
-              <>
-                Status: <b>{mission.status}</b> | Drone:{" "}
-                <b>{mission.assignedDrone?.name || "N/A"}</b>
-              </>
-            }
-          />
-        </ListItem>
-      ))}
-    </List>
-  </Paper>
-);
-
-const AlertsList = ({ alerts }) =>
-  alerts.length ? (
-    <Paper sx={{ p: 2, mt: 2 }}>
-      <Typography variant="h6" mb={1}>
-        Alerts & Warnings
-      </Typography>
-      <Stack spacing={1}>
-        {alerts.map((alert, idx) => (
-          <Alert key={idx} severity="warning" icon={<Warning />}>
-            {alert.message}
-          </Alert>
-        ))}
-      </Stack>
-    </Paper>
-  ) : null;
-
-const OperatorsList = ({ operators }) => (
-  <Paper sx={{ p: 2, mt: 2 }}>
-    <Typography variant="h6" mb={1}>
-      Operators
-    </Typography>
-    <List dense>
-      {operators.map((op) => (
-        <ListItem key={op._id}>
-          <ListItemAvatar>
-            <Avatar>
-              <Group />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={op.username}
-            secondary={
-              <>
-                Missions: <b>{op.missions}</b> | Success Rate:{" "}
-                <b>{op.successRate}%</b>
-              </>
-            }
-          />
-        </ListItem>
-      ))}
-    </List>
-  </Paper>
-);
+import StatCard from "../../components/Dashboard/StatCard";
+import StatusChips from "../../components/Dashboard/StatusChips";
+import DronesList from "../../components/Dashboard/DronesList";
+import MissionsList from "../../components/Dashboard/MissionsList";
+import AlertsList from "../../components/Dashboard/AlertsList";
 
 const AdminDashboard = () => {
   const [dashboard, setDashboard] = useState(null);
@@ -175,94 +37,197 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-        <CircularProgress />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "60vh",
+        }}
+      >
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress size={60} thickness={4} />
+          <Typography variant="h6" sx={{ mt: 2, color: "text.secondary" }}>
+            Loading Dashboard...
+          </Typography>
+        </Box>
       </Box>
     );
   }
 
   if (!dashboard) {
     return (
-      <Box sx={{ p: 4 }}>
-        <Typography color="error">Failed to load dashboard data.</Typography>
+      <Box sx={{ p: 4, textAlign: "center" }}>
+        <Error sx={{ fontSize: 60, color: "error.main", mb: 2 }} />
+        <Typography variant="h5" color="error" fontWeight={600}>
+          Failed to load dashboard data
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
+          Please try refreshing the page or contact support if the issue
+          persists.
+        </Typography>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h4" fontWeight={700} mb={2}>
-        Admin Dashboard
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
+    <Box
+      sx={{
+        p: 4,
+        bgcolor: "white",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+      }}
+    >
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Typography
+          variant="h3"
+          fontWeight={700}
+          color="text.primary"
+          sx={{ mb: 1 }}
+        >
+          AeroFleet
+        </Typography>
+        <Typography variant="subtitle1" color="text.secondary">
+          Monitor and manage your drone operations
+        </Typography>
+      </Box>
+
+      {/* Stats Cards */}
+      <Grid
+        container
+        spacing={3}
+        sx={{ mb: 4 }}
+        justifyContent="center"
+        alignItems="stretch"
+      >
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             icon={<Flight />}
             label="Total Drones"
             value={dashboard.drones.total}
-            color="primary.main"
+            color="#1976d2"
+            trend="+5% this month"
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             icon={<Assignment />}
             label="Total Missions"
             value={dashboard.missions.total}
-            color="success.main"
+            color="#2e7d32"
+            trend="+12% this week"
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             icon={<TrendingUp />}
-            label="Mission Success Rate"
+            label="Success Rate"
             value={`${dashboard.missions.successRate}%`}
-            color="info.main"
+            color="#ed6c02"
+            trend="+2% improvement"
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             icon={<Warning />}
             label="Active Alerts"
             value={dashboard.alerts.length}
-            color="warning.main"
+            color="#d32f2f"
+            trend="+2% improvement"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<People />}
+            label="Total Operators"
+            value={dashboard.operators.length}
+            color="#1976d2"
+            trend="+2% improvement"
           />
         </Grid>
       </Grid>
 
-      <Box mt={3}>
-        <Typography variant="subtitle1" fontWeight={600}>
-          Drone Status
-        </Typography>
-        <StatusChips statusCounts={dashboard.drones.statusCounts} />
-      </Box>
-      <Box mt={2}>
-        <Typography variant="subtitle1" fontWeight={600}>
-          Mission Status
-        </Typography>
-        <StatusChips statusCounts={dashboard.missions.statusCounts} />
-      </Box>
-
-      <Grid container spacing={2} mt={1}>
+      {/* Status Overview */}
+      <Grid
+        container
+        spacing={3}
+        sx={{ mb: 3 }}
+        justifyContent="center"
+        alignItems="stretch"
+      >
         <Grid item xs={12} md={6}>
-          <DronesList drones={dashboard.drones.list} />
-          <OperatorsList operators={dashboard.operators} />
+          <StatusChips
+            statusCounts={dashboard.drones.statusCounts}
+            type="Drone"
+          />
         </Grid>
         <Grid item xs={12} md={6}>
+          <StatusChips
+            statusCounts={dashboard.missions.statusCounts}
+            type="Mission"
+          />
+        </Grid>
+      </Grid>
+
+      {/* Main Content */}
+      <Grid
+        container
+        spacing={3}
+        justifyContent="center"
+        alignItems="flex-start"
+        sx={{ mb: 4 }}
+      >
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={3}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <DronesList drones={dashboard.drones.list} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={3}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <MissionsList
             missions={dashboard.missions.recent}
             title="Recent Missions"
           />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={3}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <MissionsList
             missions={dashboard.missions.active}
             title="Active Missions"
           />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={3}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <MissionsList
             missions={dashboard.missions.upcoming}
             title="Upcoming Missions"
           />
-          <AlertsList alerts={dashboard.alerts} />
         </Grid>
       </Grid>
+      <Box sx={{ paddingLeft: 10, paddingRight: 10 }}>
+        <AlertsList alerts={dashboard.alerts} />
+      </Box>
     </Box>
   );
 };

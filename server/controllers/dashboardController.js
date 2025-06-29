@@ -52,23 +52,10 @@ exports.getAdminDashboard = async (req, res) => {
     ];
 
     // Operators
-    const users = await User.find();
+    const users = await User.find({ role: "operator" });
     const operators = users.map((u) => ({
       _id: u._id,
       username: u.username,
-      missions: missions.filter((m) => m.createdBy._id.equals(u._id)).length,
-      successRate: (() => {
-        const userMissions = missions.filter((m) =>
-          m.createdBy._id.equals(u._id)
-        );
-        const completed = userMissions.filter(
-          (m) => m.status === "completed"
-        ).length;
-        const failed = userMissions.filter((m) => m.status === "failed").length;
-        return completed + failed > 0
-          ? (completed / (completed + failed)) * 100
-          : 0;
-      })(),
     }));
 
     res.json({
