@@ -184,6 +184,12 @@ AeroFleet/
 
 ---
 
+[📄 Documentation](https://drive.google.com/file/d/1Zh1FBhSVIdSuUNmagvbPDEcBsAkwpjcZ/view?usp=sharing)
+
+[🧠 Brief write-up](https://drive.google.com/file/d/1A4OcH0FjYmrn0JHVcQWlIR4Rw6N2rWLL/view?usp=sharing)
+
+---
+
 ## 📬 Contributing
 
 Feel free to open issues or submit pull requests to improve AeroFleet. All contributions are welcome!
