@@ -8,6 +8,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL, SERVER_URL } from "../../const";
 
 const DUMMY_IMAGE = "https://placehold.co/320x180?text=No+Image";
 
@@ -23,19 +24,16 @@ const OperatorDashboard = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       // Fetch assigned drone for this operator
-      const droneRes = await fetch(
-        "http://localhost:5050/api/drones/assigned-drone",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const droneRes = await fetch(`${BASE_URL}/drones/assigned-drone`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const droneData = await droneRes.json();
       setAssignedDrone(droneData.drone || null);
 
       // Fetch missions for this drone
       if (droneData.drone && droneData.drone._id) {
         const missionsRes = await fetch(
-          `http://localhost:5050/api/missions?droneId=${droneData.drone._id}`,
+          `${BASE_URL}/missions?droneId=${droneData.drone._id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const missionsData = await missionsRes.json();
@@ -74,10 +72,7 @@ const OperatorDashboard = () => {
                 assignedDrone.image && assignedDrone.image.trim() !== ""
                   ? assignedDrone.image.startsWith("http")
                     ? assignedDrone.image
-                    : `http://localhost:5050/${assignedDrone.image.replace(
-                        /\\/g,
-                        "/"
-                      )}`
+                    : `${SERVER_URL}/${assignedDrone.image.replace(/\\/g, "/")}`
                   : DUMMY_IMAGE
               }
               alt={assignedDrone.name}

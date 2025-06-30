@@ -9,6 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import Heading from "../../components/Heading";
+import { BASE_URL } from "../../const";
 
 const roles = [
   { value: "admin", label: "Admin" },
@@ -31,7 +32,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5050/api/signup", {
+      const res = await fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

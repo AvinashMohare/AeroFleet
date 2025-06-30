@@ -12,7 +12,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../../const";
 const statusColors = {
   planned: "info",
   "in-progress": "warning",
@@ -30,7 +30,7 @@ const Missions = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5050/api/missions", {
+        const res = await fetch(`${BASE_URL}/missions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

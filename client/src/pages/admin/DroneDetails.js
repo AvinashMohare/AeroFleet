@@ -12,6 +12,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
+import { BASE_URL, SERVER_URL } from "../../const";
 
 const DUMMY_IMAGE = "https://placehold.co/320x180?text=No+Image";
 
@@ -28,7 +29,7 @@ const DroneDetails = () => {
     const fetchDrone = async () => {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5050/api/drones/${droneId}`, {
+      const res = await fetch(`${BASE_URL}/drones/${droneId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -38,7 +39,7 @@ const DroneDetails = () => {
     };
     const fetchOperators = async () => {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5050/api/users?role=operator", {
+      const res = await fetch(`${BASE_URL}/users?role=operator`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -51,7 +52,7 @@ const DroneDetails = () => {
   const handleAssign = async () => {
     setAssigning(true);
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:5050/api/drones/${droneId}/assign-operator`, {
+    await fetch(`${BASE_URL}/drones/${droneId}/assign-operator`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +62,7 @@ const DroneDetails = () => {
     });
     setAssigning(false);
     // Refresh drone details
-    const res = await fetch(`http://localhost:5050/api/drones/${droneId}`, {
+    const res = await fetch(`${BASE_URL}/drones/${droneId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -94,7 +95,7 @@ const DroneDetails = () => {
     drone.image && drone.image.trim() !== ""
       ? drone.image.startsWith("http")
         ? drone.image
-        : `http://localhost:5050/${drone.image.replace(/\\/g, "/")}`
+        : `${SERVER_URL}/${drone.image.replace(/\\/g, "/")}`
       : DUMMY_IMAGE;
 
   return (

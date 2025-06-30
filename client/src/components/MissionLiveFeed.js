@@ -18,6 +18,7 @@ import {
 import L from "leaflet";
 import { io } from "socket.io-client";
 import "leaflet/dist/leaflet.css";
+import { SOCKET_URL } from "../const";
 
 const droneIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/2738/2738953.png",
@@ -36,7 +37,7 @@ const MissionLiveFeed = ({ mission }) => {
       socketRef.current.disconnect();
     }
 
-    const socket = io("http://localhost:5050");
+    const socket = io(`${SOCKET_URL}`);
     socketRef.current = socket;
 
     // Listen for mission-live events

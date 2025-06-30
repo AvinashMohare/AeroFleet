@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../const";
 
 const statusOptions = [
   { value: "available", label: "Available" },
@@ -51,7 +52,7 @@ const AddDrone = () => {
       formData.append("location[lng]", form.lng);
       if (form.image) formData.append("image", form.image);
 
-      const res = await fetch("http://localhost:5050/api/drones", {
+      const res = await fetch(`${BASE_URL}/drones`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

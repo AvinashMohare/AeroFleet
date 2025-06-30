@@ -9,6 +9,7 @@ import {
   Paper,
 } from "@mui/material";
 import * as XLSX from "xlsx";
+import { BASE_URL } from "../../const";
 
 const MissionLiveFeedPage = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const MissionLiveFeedPage = () => {
           setLoading(false);
           return;
         }
-        const res = await fetch(`http://localhost:5050/api/missions/${id}`, {
+        const res = await fetch(`${BASE_URL}/missions/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) {

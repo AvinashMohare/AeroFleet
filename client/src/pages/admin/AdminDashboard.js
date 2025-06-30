@@ -22,7 +22,7 @@ import MissionsList from "../../components/Dashboard/MissionsList";
 import AlertsList from "../../components/Dashboard/AlertsList";
 import AdminDrawer from "../../components/Dashboard/AdminDrawer";
 import Heading from "../../components/Heading";
-
+import { BASE_URL } from "../../const";
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -41,12 +41,9 @@ const AdminDashboard = () => {
     const fetchDashboard = async () => {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        "http://localhost:5050/api/dashboard/admin-dashboard",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await fetch(`${BASE_URL}/dashboard/admin-dashboard`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       setDashboard(data);
       setLoading(false);

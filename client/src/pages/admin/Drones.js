@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DroneCard from "../../components/DroneCard";
 import DroneMap from "../../components/DroneMap";
+import { BASE_URL } from "../../const";
 
 const Drones = () => {
   const [drones, setDrones] = useState([]);
@@ -21,7 +22,7 @@ const Drones = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5050/api/drones", {
+        const res = await fetch(`${BASE_URL}/drones`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

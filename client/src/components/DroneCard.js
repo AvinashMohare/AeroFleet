@@ -6,6 +6,7 @@ import {
   CardActionArea,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../const";
 
 const DUMMY_IMAGE = "https://placehold.co/320x180?text=No+Image";
 
@@ -22,7 +23,7 @@ const DroneCard = ({ drone }) => {
             drone.image && drone.image.trim() !== ""
               ? drone.image.startsWith("http")
                 ? drone.image
-                : `http://localhost:5050/${drone.image.replace(/\\/g, "/")}`
+                : `${SERVER_URL}/${drone.image.replace(/\\/g, "/")}`
               : DUMMY_IMAGE
           }
           alt={drone.name}

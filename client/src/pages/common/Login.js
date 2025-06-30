@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Heading from "../../components/Heading";
+import { BASE_URL } from "../../const";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5050/api/login", {
+      const res = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

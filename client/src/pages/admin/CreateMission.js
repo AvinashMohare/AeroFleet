@@ -21,6 +21,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { BASE_URL } from "../../const";
 
 const droneIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/2738/2738953.png",
@@ -59,7 +60,7 @@ const CreateMission = () => {
     if (area.length > 2) {
       const fetchDrones = async () => {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5050/api/drones", {
+        const res = await fetch(`${BASE_URL}/drones`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -116,7 +117,7 @@ const CreateMission = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5050/api/missions", {
+      const res = await fetch(`${BASE_URL}/missions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
