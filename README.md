@@ -190,10 +190,4 @@ Feel free to open issues or submit pull requests to improve AeroFleet. All contr
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 ## ✈️ Made with 💻 by [Avinash Mohare](https://github.com/AvinashMohare)
